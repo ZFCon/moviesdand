@@ -1,0 +1,113 @@
+{% extends 'index.html' %}
+  {% block title %}
+  Watch {{ movie.title }}
+  {% endblock %}
+
+  {% block style %}
+    <style>
+    .modal-backdrop.show {z-index: 0}
+    @media (min-width: 576px) {
+      .modal-dialog {
+        max-width: 892px;
+        margin: 30px auto;
+        }
+      .modal-sm {
+        max-width: 300px; } }
+    </style>
+    {% endblock %}
+    {% block content %}
+      {% load static %}
+          <div class="row mt-5 pt-5 mx-lg-5 mx-1">
+            <div class="col">
+              <div class="mx-auto">
+                <p class="movie-watching__title h2"><a href="{% url 'movie:detail' movieid %}">{{ movie.title }} - {{ movie.year }}</a></p>
+                <ul  class="nav nav-pills mb-1">
+                  {% for frame in frames %}
+                    <li class="{% if forloop.counter == 1 %}active{% endif %} nav-item mr-2 mb-1">
+                        <a class="nav-link bg-dark"  href="#{{ forloop.counter }}b" data-toggle="tab">{{ frame.name }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <div class="tab-content">
+                  {% for frame in frames %}
+                    <div class="tab-pane {% if forloop.counter == 1 %}active{% endif %} embed-responsive embed-responsive-16by9" id="{{ forloop.counter }}b">
+                            {% autoescape off %}
+                              {{ frame.frame }}
+                            {% endautoescape %}
+                    </div>
+                  {% endfor %}
+                </div>
+                <div class="movie-watching__view-count">
+                  <span>104.574</span> Views
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <section class="wrap">
+              <div class="container">
+                <div class="row">
+                  <div class="comments-container">
+                  <h3>Comments</h3>
+                  <ul id="comments-list" class="comments-list">
+                    {% for comment in comments %}
+                      <li>
+                        <div class="row">
+                          <!-- Avatar -->
+                          <div class="col-auto">
+                            <div class="comment-avatar"><img src="{% static 'images/common/default-avatar.png' %}" alt=""></div>
+                          </div>
+                          <!-- Comment Container -->
+                          <div class="col">
+                            <div class="comment-box">
+                              <div class="comment-head">
+                                <h6 class="comment-name"><a href="#">Hakona matata man</a></h6>
+                                <span>{{ comment.datestamp }}</span>
+                              </div>
+                              <div class="comment-content">
+                                {{ comment.comment }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  <form method="POST">
+                      {% csrf_token %}
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            {{ forms.as_p }}
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <button class="btn btn-primary px-lg-3 px-1">comment</button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </section>
+            <section class="wrap">
+              <div class="wrap-heading">
+                  <h2 class="wrap-heading__title"><a href="list-movies.html">Related movies</a></h2>
+              </div>
+              <!-- /.wrap-heading -->
+              <div class="row knowfor">
+                  {% for movie in related %}
+                  <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="card bg-dark text-white">
+                      <img class="card-img" src="{{ movie.poster }}" alt="Card image">
+                      <div class="card-img-overlay px-2 py-5 ">
+                        <h4 class="card-title"><a href="{% url 'movie:detail' movie.movieid %}">{{ movie.title|truncatewords:2 }}</a></h4>
+                        <p class="card-text card-year">{{ movie.year }}</p>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </section>
+            <!-- /.section -->
+          </div>
+{% endblock %}

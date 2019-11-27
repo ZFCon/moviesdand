@@ -1,0 +1,22 @@
+{% load static %}
+<nav class="sidebar col-lg-1 col-md-1 col-2 px-0" id="navbar2">
+    <a class="sidebar__brand" href="{% url 'index' 1 %}"><img src="{% static 'images/logo.png' %}" height="50"></a>
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'index' 1 %}">
+          <div class="sidebar__icon">
+              <i class="fa fa-home"></i>
+          </div><p class="txt-nav">Home Page</p><span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'movie:lucky' %}">
+          <div class="sidebar__icon">
+            <i class="fa fa-bullseye"></i>
+          </div>
+          <p class="txt-nav">
+          Lucky
+          </p>
+        </a>
+      </li>
+    </ul>
+  </nav>

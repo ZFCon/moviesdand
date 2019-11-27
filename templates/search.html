@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+  {% block title %}
+  {{ request.GET.q }}
+    {% endblock %}
+
+    {% block content %}
+    {% include 'base/carousel.html' %}
+    <!-- /.carousel -->
+      <div class="container-fluid pading-md">
+          <section class="wrap">
+
+            <div class="wrap-heading">
+                <h2 class="wrap-heading__title"><a href="{% url 'search:movie' id %}?q={{ request.GET.q }}">The result for {{ request.GET.q }}: </a></h2>
+            </div>
+            <!-- /.wrap-heading -->
+
+            <div class="row">
+              <!-- New Movies -->
+              {% for item in items %}
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card">
+                  <a href="{% url 'movie:detail' item.movieid %}"><img class="card-img-top" src="{{ item.poster }}" alt="{{ item.title }}"></a>
+                  <div class="card-block">
+                    <h4 class="card-title text-center"><a href="{% url 'movie:detail' item.movieid %}">{{ item.title|truncatewords:4 }}</a></h4>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <div class="row mb-5">
+                <div class="col">
+                  {% if id|add:-1 %}
+                  <a href="{% url 'search:movie' id|add:-1 %}?q={{ request.GET.q }}" class="btn btn-secondary px-lg-5 px-3 float-left">Prev</a>
+                  {% endif %}
+                </div>
+                  <div class="col">
+                  {% if id != pages and pages != 0 %}
+                  <a href="{% url 'search:movie' id|add:1 %}?q={{ request.GET.q }}" class="btn btn-secondary px-lg-5 px-3 float-right">Next</a>
+                  {% endif %}
+                </div>
+            </div>
+          </section>
+          <!-- /.section -->
+      </div>
+        {% endblock %}

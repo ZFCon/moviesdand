@@ -1,0 +1,127 @@
+{% extends 'index.html' %}
+  {% block title %}
+  {{ movie.title }}
+  {% endblock %}
+
+  {% block style %}
+    <style>
+        .modal-backdrop.show {z-index: 1}
+          @media (min-width: 576px) {
+            .modal-dialog {
+              max-width: 892px;
+              }
+        .modal-sm {
+          max-width: 300px; } }
+    </style>
+    {% endblock %}
+    
+  {% block content %}
+          <div class="cast-container">
+            <div class="cast-wrap d-flex">
+              <div class="row px-lg-5 px-3">
+              <div class="col-auto">
+              <div class="movie-poster">
+                <img src="{{ movie.poster }}" alt="{{ movie.title }}" width="255">
+                {% if not watch %}
+                <p>If you want this movie we can add</p>
+                <p>it for you, Just request it! <a href="{% url 'movie:request' movieid %}" class="btn btn-sm btn-primary">request</a></p>
+                {% endif %}
+                <a href="{% url 'movie:watch' movieid %}" class="btn btn-primary btn-lg btn-block {% if not watch %}disabled{% endif %}"><i class="fa fa-television" aria-hidden="true"></i> Watch movie</a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#trailerMovie">
+                  Trailer
+                </button>
+
+                <!-- Modal -->
+                  <div class="row modal fade mx-auto my-5 py-4" id="trailerMovie" tabindex="-1" role="dialog" aria-labelledby="trailerMovieLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="col-lg-12 col-md-11 col-10 offset-lg-0 offset-md-1 offset-2 modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="trailerMovieLabel">Trailer {{ movie.title }}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body py-3">
+                          <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="{{ movie.trailer }}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+              <!-- /.movie-poster -->
+              <div class="col">
+              <div class="cast-info">
+                <div class="cast-name">
+                  <h3>{{ movie.title }}</h3>
+                </div>
+                <div class="cast-job">
+                  <a href="#">{{ movie.title }} ({{ movie.year }})</a>
+                </div>
+                <div class="movie-social">
+                  {% if request.user.is_authenticated %}
+                  <a href="#"><i class="fa fa-heart" aria-hidden="true"></i> Save the movie</a>
+                  {% endif %}
+                  <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i> Share</a>
+                </div>
+                <div class="movie-rate">
+                  <div class="movie-rate__point">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <p><span>{{ rating.rate }}</span> /10<br>
+                      <span class="rv">{{ rating.rating }} rating</span>
+                    </p>
+                  </div>
+                  <div class="movie-rate__rate-star">
+                    <p>Film Review: </p>
+                    {% for star in rating.stars %}
+                    {% if star %}
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    {% else %}                    
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                    {% endif %}
+                    {% endfor %}                 
+                  </div>
+                </div>
+                <div class="cast-bio movie-nav-tabs py-5">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item">
+                          <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Generality</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="cast-tab" data-toggle="tab" href="#cast" role="tab" aria-controls="cast" aria-selected="false">Cast</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                        <p>{{ movie.plot }}</p>
+                        <p>premiered in {{ movie.year }}.</p>
+                        {% for genre in genres %}
+                          <span class="badge badge-primary"><a href="{% url 'search:genre' genre 1 %}" class="text-light">{{ genre }}</a></span>
+                        {% endfor %}
+                      </div>
+                      <div class="tab-pane fade" id="cast" role="tabpanel" aria-labelledby="cast-tab">
+                          <div class="row">
+                            {% for item in cast %}
+                              <div class="col-lg-3 col-4">
+                                <div class="card">
+                                  <a href="{% url 'actor:detail' item.actorid %}"><img class="card-img-top" src="{{ item.photo }}" alt="Card image cap"></a>
+                                  <div class="card-block">
+                                    <h4 class="card-title text-center"><a href="{% url 'actor:detail' item.actorid %}">{{ item.name|truncatewords:2 }}</a></h4>
+                                  </div>
+                                </div>
+                              </div>
+                            {% endfor %}
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endblock %}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-site-verification" content="WUf-5mMmJ4TF11UE4uAOEFUATQDCU_a0g8yPsZaq0SI">
+    <script data-ad-client="ca-pub-5736625765854510" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <link rel = "icon" type = "image/png" href = "{% static 'images/logo.png' %}">
+    <!-- For apple devices -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "{% static 'images/logo.png' %}"/>
+    <title>
+      {% block title %}
+      Home Page
+      {% endblock %}
+    </title>
+    {% include 'base/css.html' %}
+</head>
+<body>
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-1 col-md-1 col-2 px-0">
+        {% include 'base/nav.html' %}
+        </div>
+        <div class="col-lg-11 col-md-11 col-10 px-0">
+        <main role="main" class="main">
+        {% include 'base/search.html' %}
+          <!-- /.top-menu -->
+          {% block content %}
+          {% include 'base/carousel.html' %}
+          <!-- /.carousel --> 
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- moviesdand header -->
+          <ins class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-5736625765854510"
+              data-ad-slot="7415935333"
+              data-ad-format="auto"
+              data-full-width-responsive="true"></ins>
+          <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+          <ul class=" nav nav-pills mt-3 mx-3">
+              <li class="nav-item mr-2 mb-1">
+                <a class="nav-link bg-dark" href="{% url 'search:genre' 'Sci-Fi' 1 %}">Sci-Fi</a>
+              </li>
+              <li class="nav-item mr-2 mb-1">
+                <a class="nav-link bg-dark" href="{% url 'search:genre' 'Action' 1 %}">Action</a>
+              </li>
+              <li class="nav-item mr-2 mb-1">
+                <a class="nav-link bg-dark" href="{% url 'search:genre' 'Comedy' 1 %}">Comedy</a>
+              </li>
+              <li class="nav-item mr-2 mb-1">
+                <a class="nav-link bg-dark" href="{% url 'search:genre' 'Family' 1 %}">Family</a>
+              </li>
+              <li class="nav-item mr-2 mb-1">
+                <a class="nav-link bg-dark" href="{% url 'search:genre' 'Fantasy' 1 %}">Fantasy</a>
+              </li>
+              <li class="nav-item mr-2 mb-1">
+                <a class="nav-link bg-dark" href="{% url 'search:genre' 'Animation' 1 %}">Animation</a>
+              </li>
+            </ul>
+          <div class="container-fluid pading-md">
+              <section class="wrap">
+
+                <div class="wrap-heading">
+                    <h2 class="wrap-heading__title"><a href="{% url 'index' id %}">New Movies</a></h2>
+                </div>
+                <!-- /.wrap-heading -->
+
+                <div class="row">
+                  <!-- New Movies -->
+                  {% for item in items %}
+                  <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="card">
+                      <a href="{% url 'movie:detail' item.movieid %}"><img class="card-img-top" src="{{ item.poster }}" alt="{{ item.title }}"></a>
+                      <div class="card-block">
+                        <h4 class="card-title text-center"><a href="{% url 'movie:detail' item.movieid %}">{{ item.title }}</a></h4>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                    <div class="row mb-5">
+                      <div class="col">
+                        {% if id|add:-1 %}
+                        <a href="{% url 'index' id|add:-1 %}" class="btn btn-secondary px-lg-5 px-3 float-left">Prev</a>
+                        {% endif %}
+                      </div>
+                        <div class="col">
+                        {% if id != pages and pages != 0 %}
+                        <a href="{% url 'index' id|add:1 %}" class="btn btn-secondary px-lg-5 px-3 float-right">Next</a>
+                        {% endif %}
+                      </div>
+                    </div>
+              </section>
+              <!-- /.section -->
+          </div>
+          {% endblock %}
+          {% include 'base/footer.html' %}
+        </main>
+      </div>
+      </div>
+  </div>
+    <!-- Bootstrap core JavaScript -->
+    {% include 'base/js.html' %}
+  </body>
+</html>

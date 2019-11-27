@@ -1,0 +1,20 @@
+<nav class="navbar top-menu" id="navbar" style="transition: top 0.3s;">
+    <ul class="navbar-nav d-flex flex-row mr-auto">
+        <form class="form-inline my-2 my-lg-0" action="{% url 'search:movie' 1 %}">
+            <input class="form-control col-lg-8 col-md-7 col-sm-6" value="{{ request.GET.q }}" type="search" placeholder="Search" aria-label="Search" name="q" style="width:50%">
+            <button class="btn btn-outline-success ml-1 col-3" type="submit">Search</button>
+        </form>
+    </ul>
+</nav>
+<script>
+  var prevScrollpos = window.pageYOffset;
+  window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+    if (prevScrollpos >= currentScrollPos) {
+      document.getElementById("navbar").style.top = "0";
+    } else {
+      document.getElementById("navbar").style.top = "-100px";
+    }
+    prevScrollpos = currentScrollPos;
+   }
+</script>
