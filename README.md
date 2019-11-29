@@ -12,7 +12,7 @@ I have deployed a live moviesdand Demo on Heroku, you can check it [Moviesdand D
 ## Run it in local env
 
 ```bash
-git clone https://github.com/michael-yin/wagtail-bootstrap-blog.git
+git clone https://github.com/ZFCon/moviesdand.git
 cd moviesdand
 git checkout master
 
