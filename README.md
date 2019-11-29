@@ -1,5 +1,3 @@
-## Introduction
-
 ## Project Detail
 
 * Python 3
