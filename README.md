@@ -1,3 +1,6 @@
+## What is this?
+This is a Movie website that have more than 3000 movie in it and more than 1000 actor, all conected to each other, It have search system, related movie and category filter.
+
 ## Project Detail
 
 * Python 3
